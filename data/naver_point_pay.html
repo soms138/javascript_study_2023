@@ -60,9 +60,30 @@
         const usePoint = document.querySelector('#use_point')
         const resetBtn = document.querySelector('#point_reset')
         const allBtn = document.querySelector('#point_all_btn')
-        let total = 1000
+        let P = 1000
+        console.log(userPoint,usePoint,resetBtn,allBtn,P)
         resetBtn.style.display = 'none'
-        userPoint.value = total.toLocaleString('ko-kr')
+        userPoint.value = P.toLocaleString('ko-kr')
+        allBtn.addEventListener('click', function(){
+            userPoint.value = 0
+            if(P>=1){
+                resetBtn.style.display = 'inline'
+                if(P>=1000){
+                    usePoint.value = P.toLocaleString('ko-kr')
+                }else{
+                userPoint.value = P
+                    resetBtn.style.display = 'none'
+                    window.alert('1,000원 이상 사용 가능합니다.')
+                }
+            }
+        })
+        resetBtn.addEventListener('click',function(){
+            userPoint.value = P.toLocaleString('ko-kr')
+            usePoint.value = 0
+            if(usePoint.value == 0){
+                resetBtn.style.display = 'none'
+            }
+        })
     </script>
 </body>
 </html>
