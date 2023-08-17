@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>day13_scroll4</title>
+    <link rel="stylesheet" href="./styles/reset.css">
+    <style>
+        body, html {scroll-behavior: smooth;}
+        header {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 50px;
+        }
+        header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        header nav {}
+        header nav a {padding: 10px;}
+        aside {
+            position: fixed;
+            left: 20px;
+            top: 50vh;
+        }
+        aside .bar {
+            display: block;
+            background-color: #222;
+            width: 20px;
+            height: 2px;
+            margin-bottom: 10px;
+            transition: all 0.5s;
+        }
+        aside .active {
+            background-color: #fff;
+            width: 100px;
+        }
+        main {}
+        main .bg {
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+        }
+        main .bg1 {
+            background-image: url(./images/bg1.jpg);
+        }
+        main .bg2 {
+            background-image: url(./images/bg2.jpg);
+        }
+        main .bg3 {
+            background-image: url(./images/bg3.jpg);
+        }
+        main .bg4 {
+            background-image: url(./images/bg4.jpg);
+        }
+        #mouse {
+            width: 50px; height: 50px;
+            border: 5px solid #fff;
+            border-radius: 50%;
+            /* 화면 최상단 스크롤 상관없이 고정 마우스 따라가는 CSS */
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 999;
+            /* 애니메이션 기능 추가 */
+            transition: all 0.1s linear;
+            /* 마우스 축 가운데로 변경 */
+            transform: translate(-50%,-50%);
+            /* 필수속성 : 마우스 따라다니는 이미지 만들 경우 */
+            /* 링크, 버튼 등 선택이 안되는 문제해결 */
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="mouse"></div>
+    <header>
+        <h1>Interior View</h1>
+        <nav>
+            <a href="#">A</a>
+            <a href="#">B</a>
+            <a href="#">C</a>
+            <a href="#">D</a>
+        </nav>
+    </header>
+    <aside>
+        <span class="bar active"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </aside>
+    <main>
+        <div class="bg bg1"></div>
+        <div class="bg bg2"></div>
+        <div class="bg bg3"></div>
+        <div class="bg bg4"></div>
+    </main>
+    <script>
+        const nav = document.querySelectorAll('nav a')
+        const bar = document.querySelectorAll('.bar')
+        const bg = document.querySelectorAll('.bg')
+        console.log(nav,bar,bg)
+
+        nav.forEach(function(t,i){
+            t.addEventListener('click',function(e){
+                e.preventDefault()
+                window.scrollTo(0,bg[i].offsetTop)
+            })
+        })
+        const body = document.querySelector('body,html')
+        window.addEventListener('scroll',function(){
+            bar.forEach(function(target,index){
+                if(body.scrollTop >= bg[index].offsetTop){
+                    for(let j of bar){j.classList.remove('active')}
+                    target.classList.add('active')
+                }
+            })
+        })
+        // 마우스 움직일 때 이벤트
+        const mouseImg = document.querySelector('#mouse')
+        console.log(mouseImg)
+        window.addEventListener('mousemove',function(e){
+            // console.log(e)
+            mouseImg.style.left = `${e.clientX}px`
+            mouseImg.style.top = `${e.clientY}px`
+        })
+    </script>
+</body>
+</html>
+
+
+<!-- for(let i of bar){i.classList.remove('active')}
+bar.classList.add('active')
+for(let i of bar){i.style.display = 'none'}
+bar[index].style.display = 'block' -->
